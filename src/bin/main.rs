@@ -8,23 +8,23 @@
 // * Use a function to display your last name
 // * Use the println macro to display messages to the terminal
 
-let first_name = "Enoch";
-let last_name = "Chirima";
+const  FIRST: &str = "Enoch";
+const LAST: &str = "Chirima";
 
 fn first_name() {
-    println!("{first_name:?}");
+    println!("{FIRST:?}");
 }
 
 fn last_name() {
-    println!("{last_name:?}");
+    println!("{LAST:?}");
 }
 
-fn fullName() ->  {
-    println!("I am {:?} {:?}", first_name, last_name);
+fn full_name() {
+    println!("I am {:?} {:?}", FIRST, LAST);
 }
 
 fn main() {
     first_name();
     last_name();
-    fullName();
+    full_name();
 }
