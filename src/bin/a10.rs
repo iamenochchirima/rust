@@ -12,4 +12,18 @@
 // * Use a match expression to determine which message
 //   to print
 
-fn main() {}
+fn is_greater_that_100(input: bool) {
+
+    match input {
+        true => println!("its big"),
+        _ => println!("its big")
+    }
+}
+
+fn main() {
+    let number = 101;
+
+    // Will return a boolean value since it's an expression
+    let is_gt_100 = number > 100;
+    is_greater_that_100(is_gt_100)
+}
