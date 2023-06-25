@@ -14,12 +14,6 @@ fn main() {
     let my_numbers: Vec<i32>  = vec![10, 20, 30, 40];
 
     for num in &my_numbers {
-        // Also works
-        // if num == 30 {
-        //     println!("thirty")
-        // } else {
-        //     println!("{num:?}")
-        // }
         match num {
             30 => println!("thirty"),
             _ => println!("{num:?}")
