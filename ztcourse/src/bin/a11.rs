@@ -9,29 +9,27 @@
 // * Create a function to display the quantity, with the struct as a parameter
 // * Create a function to display the id number, with the struct as a parameter
 
-struct Grocery {
-    id: i32,
-    name: String,
-    price: i32,
+struct GroceryItem {
     quantity: i32,
+    id: i32,
 }
 
-fn item_quantity(item: &Grocery) {
-    println!("Quantity: {:?}", item.quantity)
+fn display_quantity(item: &GroceryItem) {
+    println!("The quantity is: {:?}", item.quantity)
 }
-fn item_id(item: &Grocery) {
-    println!("Identity: {:?}", item.id)
+
+fn display_id(item: &GroceryItem) {
+    println!("The id is {:?}", item.id)
 }
+
+
 
 fn main() {
-    let item = Grocery {
-        id: 1,
-        quantity: 3,
-        name: ("bananas").to_string(),
-        price: 2,
-    };
-    item_quantity(&item);
-    item_id(&item);
-
+    let item  = GroceryItem {
+        id: 45,
+        quantity : 34,
+    };  
+    display_quantity(&item);
+    display_id(&item);
 
 }

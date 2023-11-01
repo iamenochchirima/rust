@@ -46,9 +46,9 @@ struct ShippingBox {
 impl ShippingBox {
     fn new_box(weight: f64, color: Color, dimensions: Dimensions) -> Self {
         Self {
-            dimensions: dimensions,
-            weight: weight,
-            color : color,
+            dimensions,
+            weight,
+            color,
         }
     }
 
@@ -57,15 +57,14 @@ impl ShippingBox {
         self.dimensions.print();
         println!("Weight: {:?}", self.weight)
     }
-
 }
 
 fn main() {
-   let small_dimensions = Dimensions {
-    length: 4.0,
-    width: 2.5,
-    height: 2.5,
-   };
-   let small_box = ShippingBox::new_box(3.3, Color::Blue,small_dimensions);
-   small_box.print()
+    let small_dimensions = Dimensions {
+        length: 4.0,
+        width: 2.5,
+        height: 2.5,
+    };
+    let small_box = ShippingBox::new_box(3.3, Color::Blue, small_dimensions);
+    small_box.print()
 }

@@ -8,19 +8,16 @@
 // * Use a function to display your last name
 // * Use the println macro to display messages to the terminal
 
-const FIRSY_NAME: &str = "Enoch";
-const LAST_NAME: &str = "Chirima";
-
 fn first_name() {
-    println!("{FIRSY_NAME:?}");
+    println!("My first name is: {}", "John");
 }
 
 fn last_name() {
-    println!("{LAST_NAME:?}");
+    println!("My last name is: {}", "Doe");
 }
 
 fn full_name() {
-    println!("I am {:?} {:?}", FIRSY_NAME, LAST_NAME);
+    println!("My full name is: {} {}", "John", "Doe");
 }
 
 fn main() {
