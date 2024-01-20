@@ -29,4 +29,77 @@
 // * A vector is the easiest way to store the bills at stage 1, but a
 //   hashmap will be easier to work with at stages 2 and 3.
 
-fn main() {}
+use std::collections::HashMap;
+use std::io;
+use uuid::Uuid;
+
+
+
+struct Bill {
+    id: String,
+    name: String,
+    amount: f64,
+}
+
+fn get_input() -> Option<String> {
+    let mut buffer = String::new();
+
+    while io::stdin().read_line(&mut buffer).is_err() {
+        println!("Error reading buffer, please try again")
+    }
+    let input = buffer.trim().to_owned();
+    if input == "" {
+        println!("Input cannot be empty, please try again");
+        return None;
+    } else {
+        return Some(input);
+    }
+}
+
+enum MainMenu {
+    AddBill,
+    ViewBills,
+}
+
+impl MainMenu {
+    fn from_str(input: &str) -> Option<MainMenu> {
+        match input {
+            "1" => Some(Self::AddBill),
+            "2" => Some(Self::ViewBills),
+            _ => None,
+        }
+    }
+
+    fn show() {
+        println!("");
+        println!("== Bill Manager ==");
+        println!("");
+        println!("1. Add Bill");
+        println!("2. View Bills");
+        println!("");
+        println!("Please choose an option:");
+
+    }
+}
+
+
+
+fn main() {
+    
+    loop {
+        MainMenu::show();
+        let input = get_input().expect("No data entered");
+        match MainMenu::from_str(&input.as_str()) {
+            Some(MainMenu::AddBill) => {
+                println!("Add Bill");
+            },
+            Some(MainMenu::ViewBills) => {
+                println!("View Bills");
+            },
+            None => {
+                println!("Invalid option");
+                return;
+            },
+        }
+    }
+}
