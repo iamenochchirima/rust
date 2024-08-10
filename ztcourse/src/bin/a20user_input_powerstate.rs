@@ -20,12 +20,10 @@
 // * Use a match expression to convert the user input into the power state enum
 // * The program should be case-insensitive (the user should be able to type
 //   Reboot, reboot, REBOOT, etc.)
-
 use std::io;
 
-// * Use an enum to store the possible power states
 #[derive(Debug)]
-enum PowerState {
+enum Power {
     Off,
     Sleep,
     Reboot,
@@ -33,29 +31,31 @@ enum PowerState {
     Hibernate,
 }
 
-// * Use a function with a match expression to print out the power messages
-impl PowerState {
-    fn new(state: &str) -> Option<PowerState> {
-        let state = state.trim().to_lowercase();
+fn get_user_input() -> io::Result<String> {
+    let mut input = String::new();
+    io::stdin().read_line(&mut input)?;
+    Ok(input.trim().to_uppercase().to_owned())
+}
 
-        // * state.as_str() is used to convert the string to a string slice (String -> &str)
-        match state.as_str() {
-            "off" => Some(PowerState::Off),
-            "sleep" => Some(PowerState::Sleep),
-            "reboot" => Some(PowerState::Reboot),
-            "shutdown" => Some(PowerState::Shutdown),
-            "hibernate" => Some(PowerState::Hibernate),
+impl Power {
+    fn new(state: &str) -> Option<Power> {
+        let state = state;
+        match state {
+            "OFF" => Some(Power::Off),
+            "SLEEP" => Some(Power::Sleep),
+            "REBOOT" => Some(Power::Reboot),
+            "SHUTDOWN" => Some(Power::Shutdown),
+            "HIBERNATE" => Some(Power::Hibernate),
             _ => None,
         }
     }
 }
 
-fn print_power_message(state: &PowerState) {
-    // * Use a match expression to print out the power messages
-    use PowerState::*;
+fn print_power_action(state: Power) {
+    use Power::*;
     match state {
-        Off => println!("Powering off"),
-        Sleep => println!("Sleeping"),
+        Off => println!("Turning off"),
+        Sleep => println!("Going to sleep"),
         Reboot => println!("Rebooting"),
         Shutdown => println!("Shutting down"),
         Hibernate => println!("Hibernating"),
@@ -64,14 +64,10 @@ fn print_power_message(state: &PowerState) {
 
 fn main() {
     println!("Enter a power state:");
-    let mut input = String::new();
-    let user_input = io::stdin().read_line(&mut input);
-    if user_input.is_ok() {
-        match PowerState::new(&input) {
-            Some(state) => print_power_message(&state),
-            None => println!("Invalid power state"),
-        }
-    } else {
-        println!("Error reading input");
+    let input = get_user_input().expect("Failed to read line");
+    let power_state = Power::new(&input);
+    match power_state {
+        Some(state) => print_power_action(state),
+        None => println!("Invalid power state"),
     }
 }

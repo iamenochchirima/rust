@@ -29,149 +29,91 @@
 // * A vector is the easiest way to store the bills at stage 1, but a
 //   hashmap will be easier to work with at stages 2 and 3.
 
+use std::collections::HashMap;
 use std::io;
 
-#[derive(Debug, Clone)]
-pub struct Bill {
+struct Bill {
     name: String,
     amount: f64,
 }
 
-pub struct Bills {
-    bills: Vec<Bill>,
-}
-
-impl Bills {
-    fn new() -> Self {
-        Self { bills: Vec::new() }
-    }
-
-    fn add(&mut self, bill: Bill) {
-        self.bills.push(bill);
-    }
-
-    fn get_all(&self) -> Vec<&Bill> {
-        self.bills.iter().collect()
-    }
-}
-
-fn get_input() -> Option<String> {
-    let mut buffer = String::new();
-
-    while io::stdin().read_line(&mut buffer).is_err() {
-        println!("Error reading buffer, please try again")
-    }
-    let input = buffer.trim().to_owned();
-    if input == "" {
-        println!("Input cannot be empty, please try again");
-        return None;
-    } else {
-        return Some(input);
-    }
-}
-
-fn get_bill_amount() -> Option<f64> {
-    println!("Bill amount:");
-
-    loop {
-        let input = match get_input() {
-            Some(input) => input,
-            None => return None,
-        };
-        if &input == "" {
-            println!("Input cannot be empty, please try again");
-            return None;
-        }
-        let parsed_input: Result<f64, _> = input.parse();
-        match parsed_input {
-            Ok(amount) => return Some(amount),
-            Err(_) => {
-                println!("Invalid amount, please try again");
-            }
-        }
-    }
-}
-
 enum MainMenu {
     AddBill,
-    ViewBills,
+    ViewBill,
+}
+
+impl Bill {
+    fn new(name: &str, amount: f64) -> Self {
+        Self {
+            name: name.to_string(),
+            amount,
+        }
+    }
 }
 
 impl MainMenu {
-    fn from_str(input: &str) -> Option<MainMenu> {
+    fn from_str(input: &str) -> Option<Self> {
         match input {
             "1" => Some(Self::AddBill),
-            "2" => Some(Self::ViewBills),
+            "2" => Some(Self::ViewBill),
             _ => None,
         }
     }
 
     fn show() {
         println!("");
-        println!("== Bill Manager ==");
-        println!("");
+        println!(" == Bill Manager == ");
         println!("1. Add Bill");
         println!("2. View Bills");
         println!("");
-        println!("Please choose an option:");
+        println!("Enter Selection: ")
     }
 }
 
-mod menu {
-    use crate::{get_input , get_bill_amount, Bill, Bills};
-
-    pub fn add_bill(bills: &mut Bills) {
-        println!("Bill name:");
-        let name = match get_input() {
-            Some(name) => name,
-            None => {
-                println!("Invalid name");
-                return;
-            }
-        };
-        let amount = match get_bill_amount() {
-            Some(amount) => amount,
-            None => {
-                println!("Invalid amount");
-                return;
-            }
-        };
-        let bill = Bill {
-            name,
-            amount,
-        };
-        bills.add(bill);
-        println!("Bill added");
+fn get_user_input() -> Option<String> {
+    let mut buffer = String::new();
+    while io::stdin().read_line(&mut buffer).is_err() {
+        println!("Please enter your data again")
     }
-
-    pub fn view_bills(bills: &Bills) {
-        println!("Bills:");
-        for bill in bills.get_all() {
-            println!("Bill name-{}: Ammount-${}", bill.name, bill.amount);
-        }
+    let input = buffer.trim().to_owned();
+    if input == "" {
+        None
+    } else {
+        Some(input)
     }
 }
 
 fn main() {
-
-    let mut bills = Bills::new();
+    let mut bills: HashMap<String, Bill> = HashMap::new();
 
     loop {
         MainMenu::show();
-        let input = get_input().expect("No data entered");
-        match MainMenu::from_str(&input.as_str()) {
-            Some(MainMenu::AddBill) => {
-                println!("Add Bill");
-                menu::add_bill(&mut bills);
-            }
-            Some(MainMenu::ViewBills) => {
-                println!("View Bills");
-                menu::view_bills(&bills);
-            }
-            None => {
-                println!("Invalid option");
-                return;
-            }
-        }
+
+        let input = get_user_input().expect("No data entered");
+
+        match MainMenu::from_str(&input) {
+                    Some(MainMenu::AddBill) => {
+                        println!("");
+                        println!("Enter the name of the bill: ");
+                        let name = get_user_input().expect("No data entered");
+                        println!("");
+                        println!("Enter the owing amount of the bill: ");
+                        let amount = get_user_input().expect("No data entered");
+                        let bill = Bill::new(&name, amount.parse().expect("Invalid amount"));
+                        bills.insert(name, bill);
+                        println!("");
+                        println!("Bill added successfully");
+                        return;
+                    },
+                    Some(MainMenu::ViewBill) => {
+                        println!("");
+                        println!("Bills: ");
+                        for (name, bill) in &bills {
+                            println!("{}: {}", name, bill.amount);
+                        }
+                        return;
+                    },
+                    None => return
+                }
     }
 }
