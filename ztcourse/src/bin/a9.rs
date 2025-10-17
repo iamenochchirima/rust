@@ -9,17 +9,5 @@
 // * Destructure the return value into two variables
 // * Use an if..else if..else block to determine what to print
 
-fn get_coordinates() -> (i32, i32) {
-    (2, 5)
-}
+fn main() {}
 
-fn main() {
-    let (x, y) = get_coordinates();
-    if y == 5 {
-        println!("Equals 5")
-    } else if y < 5 {
-        println!("less that 5")
-    } else {
-        println!("Greater than 5")
-    }
-}

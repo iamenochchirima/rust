@@ -8,17 +8,5 @@
 // * Use a function to display the result
 // * Use the "{:?}" token in the println macro to display the result
 
-fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
+fn main() {}
 
-fn result() {
-    let a = 2;
-    let b = 5;
-    let answer = add(a, b);
-    println!("The answer is {:?}", answer);
-}
-
-fn main() {
-    result();
-}

@@ -15,6 +15,10 @@ enum ServicePriority {
     Standard,
 }
 
+trait Priority {
+    fn get_priority(&self) -> ServicePriority;
+}
+
 #[derive(Debug)]
 struct ImportantGuest;
 impl Priority for ImportantGuest {
@@ -31,18 +35,5 @@ impl Priority for Guest {
     }
 }
 
-trait Priority {
-    fn get_priority(&self) -> ServicePriority;
-}
+fn main() {}
 
-fn print_priority<T: Priority + std::fmt::Debug>(guest: T) {
-    println!("{:?} is a {:?}", guest, guest.get_priority());
-}
-
-fn main() {
-    let important_guest = ImportantGuest;
-    let guest = Guest;
-
-    print_priority(important_guest);
-    print_priority(guest); 
-}
