@@ -25,5 +25,16 @@ fn find_user(name: &str) -> Option<i32> {
     }
 }
 
-fn main() {}
+fn main() {
+    let user = find_user("sam").map(|id| User {name : "sam".to_string(), user_id : id});
+
+    match user {
+        Some(val) => {
+            println!("{:?}", val)
+        },
+        None => {
+            println!("User not found")
+        }
+    }
+}
 
